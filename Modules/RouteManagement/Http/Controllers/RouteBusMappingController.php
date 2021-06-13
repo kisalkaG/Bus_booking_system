@@ -5,6 +5,12 @@ namespace Modules\RouteManagement\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\RouteManagement\Entities\BusRoute;
+use Modules\RouteManagement\Entities\Route;
+use Modules\RouteManagement\Http\Requests\RouteBusMappingRequest;
+use Modules\RouteManagement\Http\Requests\RouteManagementRequest;
+use Modules\RouteManagement\Transformers\RouteBusMappingResource;
+use Modules\RouteManagement\Transformers\RouteManagementResource;
 
 class RouteBusMappingController extends Controller
 {
@@ -14,7 +20,9 @@ class RouteBusMappingController extends Controller
      */
     public function index()
     {
-        return view('routemanagement::index');
+        $records = BusRoute::all();
+        $filtered_records = RouteBusMappingResource::collection($records);
+        return response($filtered_records, 200);
     }
 
     /**
@@ -31,9 +39,11 @@ class RouteBusMappingController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(RouteBusMappingRequest $request)
     {
-        //
+        $record = $request->all();
+        $route =  BusRoute::create($record);
+        return response($route, 200);
     }
 
     /**
@@ -43,7 +53,8 @@ class RouteBusMappingController extends Controller
      */
     public function show($id)
     {
-        return view('routemanagement::show');
+        $record = BusRoute::findOrFail($id);
+        return response($record, 200);
     }
 
     /**
@@ -62,9 +73,12 @@ class RouteBusMappingController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(RouteBusMappingRequest $request, $id)
     {
-        //
+        $record = BusRoute::findOrFail($id);
+        $input = $request->all();
+        $route = $record->fill($input)->save();
+        return response($route, 200);
     }
 
     /**
@@ -74,6 +88,8 @@ class RouteBusMappingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $record = BusRoute::findOrFail($id);
+        $record = $record->delete();
+        return response($record, 200);
     }
 }

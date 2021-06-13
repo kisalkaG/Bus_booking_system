@@ -5,6 +5,10 @@ namespace Modules\RouteManagement\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\BusManagement\Entities\Bus;
+use Modules\RouteManagement\Entities\Route;
+use Modules\RouteManagement\Http\Requests\RouteManagementRequest;
+use Modules\RouteManagement\Transformers\RouteManagementResource;
 
 class RouteManagementController extends Controller
 {
@@ -14,7 +18,9 @@ class RouteManagementController extends Controller
      */
     public function index()
     {
-        return view('routemanagement::index');
+        $records = Route::all();
+        $filtered_records = RouteManagementResource::collection($records);
+        return response($filtered_records, 200);
     }
 
     /**
@@ -31,9 +37,11 @@ class RouteManagementController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(RouteManagementRequest $request)
     {
-        //
+        $record = $request->all();
+        $route = Route::create($record);
+        return response($route, 200);
     }
 
     /**
@@ -43,7 +51,8 @@ class RouteManagementController extends Controller
      */
     public function show($id)
     {
-        return view('routemanagement::show');
+        $record = Route::findOrFail($id);
+        return response($record, 200);
     }
 
     /**
@@ -62,9 +71,12 @@ class RouteManagementController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(RouteManagementRequest $request, $id)
     {
-        //
+        $record = Route::findOrFail($id);
+        $input = $request->all();
+        $route = $record->fill($input)->save();
+        return response($route, 200);
     }
 
     /**
@@ -74,6 +86,8 @@ class RouteManagementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $record = Route::findOrFail($id);
+        $record = $record->delete();
+        return response($record, 200);
     }
 }

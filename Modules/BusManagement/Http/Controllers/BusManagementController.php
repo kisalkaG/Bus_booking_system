@@ -33,7 +33,7 @@ class BusManagementController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
+     * @param BusManagementRequest $request
      * @return Renderable
      */
     public function store(BusManagementRequest $request)

@@ -9,6 +9,7 @@ class BusSchedule extends Model
 {
     protected $table = 'bus_schedules';
     protected $fillable = ['bus_route_id','direction','start_timestamp','end_timestamp'];
+    public $timestamps = false;
 
     public function busScheduleBooking() {
         return $this->belongsTo('Modules\ScheduleManagement\Entities\BusScheduleBooking','bus_schedule_id','id');

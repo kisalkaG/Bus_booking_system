@@ -9,6 +9,7 @@ class BusRoute extends Model
 {
     protected $table = 'bus_routes';
     protected $fillable = ['bus_id', 'route_id', 'status'];
+    public $timestamps = false;
 
     public function bus()
     {

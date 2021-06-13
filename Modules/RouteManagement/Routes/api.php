@@ -13,6 +13,5 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/routemanagement', function (Request $request) {
-    return $request->user();
-});
+Route::resource('route-management','RouteManagementController')->middleware('auth:sanctum');
+Route::resource('bus-route-management','RouteBusMappingController')->middleware('auth:sanctum');

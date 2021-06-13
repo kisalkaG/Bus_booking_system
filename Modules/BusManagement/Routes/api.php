@@ -16,3 +16,5 @@ use Illuminate\Http\Request;
 
 
 Route::resource('bus-management','BusManagementController')->middleware('auth:sanctum');
+Route::resource('bus-seat-management','BusSeatManagementController')->middleware('auth:sanctum');
+

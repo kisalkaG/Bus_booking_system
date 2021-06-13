@@ -10,11 +10,12 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
- .editorconfig
- .env.example
+ .editorconfig 
  .gitattributes
  .gitignore
- .idea/
- .styleci.yml
+ .idea/ 
  composer.lock
+ .editorconfig
+ .gitattributes
+        
 

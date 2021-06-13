@@ -6,10 +6,11 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ScheduleManagement\Entities\BusSchedule;
-use Modules\ScheduleManagement\Http\Requests\ScheduleManagementRequest;
-use Modules\ScheduleManagement\Transformers\ScheduleManagementResource;
+use Modules\ScheduleManagement\Entities\BusScheduleBooking;
+use Modules\ScheduleManagement\Http\Requests\ScheduleBookingRequest;
+use Modules\ScheduleManagement\Transformers\ScheduleBookingResourceCollection;
 
-class ScheduleManagementController extends Controller
+class ScheduleBookingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +18,8 @@ class ScheduleManagementController extends Controller
      */
     public function index()
     {
-        $records = BusSchedule::all();
-        $filtered_records = ScheduleManagementResource::collection($records);
+        $records = BusScheduleBooking::all();
+        $filtered_records = new ScheduleBookingResourceCollection($records);
         return response($filtered_records, 200);
     }
 
@@ -36,10 +37,11 @@ class ScheduleManagementController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(ScheduleManagementRequest $request)
+    public function store(ScheduleBookingRequest $request)
     {
+//        dd(1);
         $record = $request->all();
-        $schedule =  BusSchedule::create($record);
+        $schedule =  BusScheduleBooking::create($record);
         return response($schedule, 200);
     }
 
@@ -50,7 +52,7 @@ class ScheduleManagementController extends Controller
      */
     public function show($id)
     {
-        $record = BusSchedule::findOrFail($id);
+        $record = BusScheduleBooking::findOrFail($id);
         return response($record, 200);
     }
 
@@ -70,12 +72,12 @@ class ScheduleManagementController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(ScheduleManagementRequest $request, $id)
+    public function update(ScheduleBookingRequest $request, $id)
     {
-        $record = BusSchedule::findOrFail($id);
+        $record = BusScheduleBooking::findOrFail($id);
         $input = $request->all();
-        $busSchedule = $record->fill($input)->save();
-        return response($busSchedule, 200);
+        $busScheduleBooking = $record->fill($input)->save();
+        return response($busScheduleBooking, 200);
     }
 
     /**
@@ -85,8 +87,19 @@ class ScheduleManagementController extends Controller
      */
     public function destroy($id)
     {
-        $record = BusSchedule::findOrFail($id);
+        $record = BusScheduleBooking::findOrFail($id);
         $record = $record->delete();
         return response($record, 200);
+    }
+
+    /**
+     *
+     */
+    public function getAllBookingsById($id){
+        dd($id);
+    }
+
+    public function cancelBooking(){
+
     }
 }

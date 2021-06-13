@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Bus extends Model
 {
     protected $table = 'buses';
-    protected $fillable = ['name','type','vehical_number'];
+    protected $fillable = ['id','name','type','vehical_number'];
     public $timestamps = false;
 
     public function busSeat() {

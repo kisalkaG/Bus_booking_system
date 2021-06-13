@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\BusManagement\Transformers;
+namespace Modules\RouteManagement\Transformers;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BusManagementResource extends JsonResource
+class RouteBusMappingResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,10 @@ class BusManagementResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "id" => $this->id,
-            "name" => $this->name,
-            "type" => $this->type,
-            "vehical_number" => $this->vehical_number
+            'id' => $this->id,
+            'bus_id' => $this->bus_id,
+            'route_id' => $this->route_id,
+            'status' => $this->status
         ];
     }
 }

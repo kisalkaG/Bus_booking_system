@@ -5,8 +5,13 @@ namespace Modules\BusManagement\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\BusManagement\Entities\BusSeat;
+use Modules\BusManagement\Http\Requests\BusSeatRequest;
+use Modules\BusManagement\Transformers\BusSeatResource;
+use Modules\RouteManagement\Entities\BusRoute;
+use Modules\RouteManagement\Transformers\RouteBusMappingResource;
 
-class BusSeedManagementController extends Controller
+class BusSeatManagementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +19,9 @@ class BusSeedManagementController extends Controller
      */
     public function index()
     {
-        return view('busmanagement::index');
+        $records = BusSeat::all();
+        $filtered_records = BusSeatResource::collection($records);
+        return response($filtered_records, 200);
     }
 
     /**
@@ -31,9 +38,11 @@ class BusSeedManagementController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(BusSeatRequest $request)
     {
-        //
+        $record = $request->all();
+        $seat =  BusSeat::create($record);
+        return response($seat, 200);
     }
 
     /**
@@ -43,7 +52,8 @@ class BusSeedManagementController extends Controller
      */
     public function show($id)
     {
-        return view('busmanagement::show');
+        $record = BusSeat::findOrFail($id);
+        return response($record, 200);
     }
 
     /**
@@ -62,9 +72,12 @@ class BusSeedManagementController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(BusSeatRequest $request, $id)
     {
-        //
+        $record = BusSeat::findOrFail($id);
+        $input = $request->all();
+        $seat = $record->fill($input)->save();
+        return response($seat, 200);
     }
 
     /**
@@ -74,6 +87,8 @@ class BusSeedManagementController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $record = BusSeat::findOrFail($id);
+        $record = $record->delete();
+        return response($record, 200);
     }
 }

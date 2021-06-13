@@ -41,7 +41,7 @@ class BusSeatManagementController extends Controller
     public function store(BusSeatRequest $request)
     {
         $record = $request->all();
-        $seat =  BusSeat::create($record);
+        $seat = BusSeat::create($record);
         return response($seat, 200);
     }
 

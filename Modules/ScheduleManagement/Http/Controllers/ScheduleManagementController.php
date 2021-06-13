@@ -19,7 +19,9 @@ class ScheduleManagementController extends Controller
      */
     public function index()
     {
-        //
+        $records = BusSchedule::all();
+        $filtered_records = new ScheduleResourceCollection($records);
+        return response($filtered_records, 200);
     }
 
     /**
@@ -90,9 +92,5 @@ class ScheduleManagementController extends Controller
         return response($record, 200);
     }
 
-    public function getScheduleList() {
-        $records = BusSchedule::all();
-        $filtered_records = new ScheduleResourceCollection($records);
-        return response($filtered_records, 200);
-    }
+
 }

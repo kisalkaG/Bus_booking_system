@@ -22,5 +22,4 @@ Route::Resource('schedule-management', 'ScheduleManagementController')->middlewa
 Route::Resource('schedule-booking', 'ScheduleBookingController')->middleware('auth:sanctum');
 Route::get('get-all-bookings-by-id/{id}', 'ScheduleBookingController@getAllBookingsById')->middleware('auth:sanctum');
 Route::post('cancel-booking/{id}', 'ScheduleBookingController@cancelBooking')->middleware('auth:sanctum');
-Route::get('get-schedule-list', 'ScheduleManagementController@getScheduleList')->middleware('auth:sanctum');
 

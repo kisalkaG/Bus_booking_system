@@ -4,7 +4,9 @@ namespace Modules\ScheduleManagement\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Auth;
 use Modules\ScheduleManagement\Entities\BusSchedule;
 use Modules\ScheduleManagement\Entities\BusScheduleBooking;
 use Modules\ScheduleManagement\Http\Requests\ScheduleBookingRequest;
@@ -39,9 +41,17 @@ class ScheduleBookingController extends Controller
      */
     public function store(ScheduleBookingRequest $request)
     {
-//        dd(1);
         $record = $request->all();
-        $schedule =  BusScheduleBooking::create($record);
+        $booking = BusScheduleBooking::where('bus_schedule_id', '=', $request->get('bus_schedule_id'))
+            ->where('bus_seat_id', '=', $request->get('bus_seat_id'))
+            ->where('status', '=', true)
+            ->first();
+
+        if ($booking == null) {
+            $schedule = BusScheduleBooking::create($record);
+        } else {
+            $schedule = ['message' => 'This seat has been booked, please try another'];
+        }
         return response($schedule, 200);
     }
 
@@ -96,10 +106,32 @@ class ScheduleBookingController extends Controller
      *
      */
     public function getAllBookingsById($id){
-        dd($id);
+        $bookings = BusScheduleBooking::where('user_id', '=', $id)->get();
+        $filtered_records = new ScheduleBookingResourceCollection($bookings);
+        return response($filtered_records, 200);
     }
 
-    public function cancelBooking(){
-
+    public function cancelBooking($id)
+    {
+        $bookingScheduleId = $id;
+        $booking = BusScheduleBooking::find($bookingScheduleId);
+        if ($booking != null) {
+            $now = new \DateTime();
+            $recordCreatedTime = $booking->created_at;
+            $interval = $now->diff($recordCreatedTime);
+            $interval = $interval->h + ($interval->days * 24);
+            if ($interval > 10) {
+                $message = 'Booking can not be canceled after 10 hours.';
+            } else {
+                if ($booking->user_id == Auth::user()->id) {
+                    $booking->status = false;
+                    $booking->save();
+                    $message = 'Booking successfully canceled.';
+                }
+            }
+        } else {
+            $message = 'No such a booking exist.';
+        }
+        return response($message, 200);
     }
 }

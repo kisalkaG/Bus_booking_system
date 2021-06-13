@@ -19,6 +19,7 @@ class CreateBusSchedulesTable extends Migration
             $table->string('direction');
             $table->string('start_timestamp');
             $table->string('end_timestamp');
+            $table->timestamps();
 
             $table->foreign('bus_route_id')->references('id')->on('bus_routes');
 

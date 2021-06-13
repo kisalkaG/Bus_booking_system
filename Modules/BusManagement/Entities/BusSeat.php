@@ -9,7 +9,6 @@ class BusSeat extends Model
 {
     protected $table ='bus_seats';
     protected $fillable = ['bus_id','seat_number','price'];
-    public $timestamps = false;
 
     public function bus() {
         return $this->belongsTo('Modules\BusManagement\Entities\Bus','bus_id','id');

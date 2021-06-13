@@ -18,6 +18,7 @@ class CreateBusesTable extends Migration
             $table->string('name');
             $table->string('type');
             $table->string('vehical_number')->unique();
+            $table->timestamps();
         });
     }
 

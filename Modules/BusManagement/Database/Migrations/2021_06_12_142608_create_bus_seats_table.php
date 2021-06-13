@@ -18,6 +18,7 @@ class CreateBusSeatsTable extends Migration
             $table->unsignedBigInteger('bus_id');
             $table->integer('seat_number');
             $table->string('price');
+            $table->timestamps();
 
             $table->foreign('bus_id')->references('id')->on('buses');
         });

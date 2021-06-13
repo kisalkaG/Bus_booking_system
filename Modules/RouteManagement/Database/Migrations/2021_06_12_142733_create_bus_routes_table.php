@@ -18,6 +18,7 @@ class CreateBusRoutesTable extends Migration
             $table->unsignedBigInteger('bus_id');
             $table->unsignedBigInteger('route_id');
             $table->boolean('status');
+            $table->timestamps();
 
             $table->foreign('bus_id')->references('id')->on('buses');
             $table->foreign('route_id')->references('id')->on('routes');

@@ -9,7 +9,6 @@ class Bus extends Model
 {
     protected $table = 'buses';
     protected $fillable = ['id','name','type','vehical_number'];
-    public $timestamps = false;
 
     public function busSeat() {
         return $this->hasMany('Modules\BusManagement\Entities\BusSeat','bus_id','id');

@@ -4,10 +4,12 @@ namespace Modules\ScheduleManagement\Http\Controllers;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Routing\Controller;
 use Modules\ScheduleManagement\Entities\BusSchedule;
 use Modules\ScheduleManagement\Http\Requests\ScheduleManagementRequest;
 use Modules\ScheduleManagement\Transformers\ScheduleManagementResource;
+use Modules\ScheduleManagement\Transformers\ScheduleResourceCollection;
 
 class ScheduleManagementController extends Controller
 {
@@ -17,9 +19,7 @@ class ScheduleManagementController extends Controller
      */
     public function index()
     {
-        $records = BusSchedule::all();
-        $filtered_records = ScheduleManagementResource::collection($records);
-        return response($filtered_records, 200);
+        //
     }
 
     /**
@@ -88,5 +88,11 @@ class ScheduleManagementController extends Controller
         $record = BusSchedule::findOrFail($id);
         $record = $record->delete();
         return response($record, 200);
+    }
+
+    public function getScheduleList() {
+        $records = BusSchedule::all();
+        $filtered_records = new ScheduleResourceCollection($records);
+        return response($filtered_records, 200);
     }
 }

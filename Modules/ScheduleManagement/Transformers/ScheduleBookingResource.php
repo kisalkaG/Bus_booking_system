@@ -14,6 +14,7 @@ class ScheduleBookingResource extends JsonResource
      */
     public function toArray($request)
     {
+        dd($this);
         return [
             "id" => $this->id,
             "bus_seat_id" => $this->bus_seat_id,

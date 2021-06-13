@@ -21,6 +21,7 @@ class CreateBusScheduleBookingsTable extends Migration
             $table->integer('seat_number');
             $table->string('price');
             $table->boolean('status');
+            $table->timestamps();
 
             $table->foreign('bus_seat_id')->references('id')->on('bus_seats');
             $table->foreign('user_id')->references('id')->on('users');

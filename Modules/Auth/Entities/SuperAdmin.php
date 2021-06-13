@@ -10,10 +10,5 @@ class SuperAdmin extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
-
-
     protected $table = 'super_admin';
-    protected $fillable = [];
-
-
 }

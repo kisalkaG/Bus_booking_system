@@ -1,0 +1,6 @@
+{
+    "Auth": true,
+    "BusManagement": true,
+    "RouteManagement": true,
+    "ScheduleManagement": true
+}
